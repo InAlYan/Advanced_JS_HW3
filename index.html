@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить отзыв</title>
+</head>
+<body>
+    <h1>Добавить отзыв:</h1>
+    <input type="text" id="product">
+    <input type="text" id="feedback">
+    <button class="add-feedback">Добавить отзыв</button>
+
+    <script>
+        const productInp = document.querySelector('#product');
+        const feedbackInp = document.querySelector('#feedback');
+        const addFeedbackBtn = document.querySelector('.add-feedback');
+
+        addFeedbackBtn.addEventListener('click', function (e) {
+            if (productInp.value !== '' && feedbackInp.value !== '') { // Если заполнен продукт и отзыв о нем
+                 // Читаем из localStorage отзывы о продуктах
+                const feedbacksStr = localStorage.getItem('feedbacks');
+                // Если ничего не прочитано создаем пустой объект отзывов
+                const feedbacks = feedbacksStr ? JSON.parse(feedbacksStr) : {};
+                 // Дополняем отзывы новым отзывом
+                feedbacks[productInp.value] = feedbacks[productInp.value] 
+                                              ? [...feedbacks[productInp.value], feedbackInp.value] 
+                                              : [feedbackInp.value];
+                // Пишем в localStorage отзывы о продуктах
+                localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+                 // Переходим на страницу отзывов
+                window.location.href = './feedbacks.html';
+            }
+        });
+
+    </script>
+</body>
+</html>
